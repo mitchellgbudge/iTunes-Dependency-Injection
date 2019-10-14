@@ -10,6 +10,20 @@ import Foundation
 
 class SearchResultController {
     
+    // MARK: - Properties
+       
+       let baseURL = URL(string: "https://itunes.apple.com/search")!
+       var searchResults: [SearchResult] = []
+       let dataLoader: NetworkDataLoader
+    
+    // MARK: - Initializers
+    
+    init(dataLoader: NetworkDataLoader = URLSession.shared) {
+        self.dataLoader = dataLoader
+    }
+    
+    // MARK: - Methods
+    
     func performSearch(for searchTerm: String, resultType: ResultType, completion: @escaping () -> Void) {
         
         var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -41,6 +55,4 @@ class SearchResultController {
         dataTask.resume()
     }
     
-    let baseURL = URL(string: "https://itunes.apple.com/search")!
-    var searchResults: [SearchResult] = []
 }
