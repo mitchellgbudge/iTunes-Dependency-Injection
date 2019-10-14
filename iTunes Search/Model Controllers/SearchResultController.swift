@@ -10,19 +10,9 @@ import Foundation
 
 class SearchResultController {
     
-    // MARK: - Properties
-       
-       let baseURL = URL(string: "https://itunes.apple.com/search")!
-       var searchResults: [SearchResult] = []
-       let dataLoader: NetworkDataLoader
-    
-    // MARK: - Initializers
-    
     init(dataLoader: NetworkDataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
     }
-    
-    // MARK: - Methods
     
     func performSearch(for searchTerm: String, resultType: ResultType, completion: @escaping () -> Void) {
         
@@ -48,9 +38,15 @@ class SearchResultController {
                 self.searchResults = searchResults.results
             } catch {
                 print("Unable to decode data into object of type [SearchResult]: \(error)")
+                self.error = error
             }
+            
             completion()
         }
     }
     
+    let baseURL = URL(string: "https://itunes.apple.com/search")!
+    let dataLoader: NetworkDataLoader
+    var searchResults: [SearchResult] = []
+    var error: Error?
 }
